@@ -163,7 +163,7 @@ def fetch_and_store_btc_price():
 
 # 获取RSS数据并存储
 def fetch_and_store_rss():
-    url = "https://rss.xiaowuleyi.com/telegram/channel/misttrack_alert"
+    url = "https://rsshub.app/telegram/channel/misttrack_alert"
     
     try:
         # 解决SSL证书问题
