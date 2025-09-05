@@ -163,7 +163,8 @@ def fetch_and_store_btc_price():
 
 # 获取RSS数据并存储
 def fetch_and_store_rss():
-    url = "https://rsshub.app/telegram/channel/misttrack_alert"
+    # 使用本地RSSHub实例
+    url = "http://127.0.0.1:1200/telegram/channel/misttrack_alert"
     
     try:
         # 解决SSL证书问题
@@ -286,12 +287,12 @@ def update_daily_stats():
     conn.commit()
     conn.close()
 
-# 定时任务：每10分钟获取一次数据（避免429错误）
+# 定时任务：每6分钟获取一次数据
 def scheduled_fetch():
     while True:
         fetch_and_store_rss()
-        # 每10分钟执行一次（原为5分钟）
-        time.sleep(600)
+        # 每6分钟执行一次
+        time.sleep(360)  # 6分钟 = 360秒
 
 # 定时任务：每小时获取一次BTC价格
 def scheduled_btc_price_fetch():
