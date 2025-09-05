@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加密货币资金流动监控系统</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 广告代码 -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2726670321929378"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>加密货币资金流动监控系统</h1>
+            <p>实时监控BTC、USDT、USDC大额转账动态</p>
+        </header>
+
+        <section class="stats-panel">
+            <h2>今日统计</h2>
+            <div class="stats-container">
+                <div class="stat-item btc">
+                    <h3>BTC总量</h3>
+                    <p id="btc-total">0</p>
+                </div>
+                <div class="stat-item usdt">
+                    <h3>USDT总量</h3>
+                    <p id="usdt-total">0</p>
+                </div>
+                <div class="stat-item usdc">
+                    <h3>USDC总量</h3>
+                    <p id="usdc-total">0</p>
+                </div>
+                <div class="stat-item transactions">
+                    <h3>交易笔数</h3>
+                    <p id="transaction-count">0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 点赞和访问统计区域 -->
+        <section class="interaction-panel">
+            <div class="like-container">
+                <button id="like-button" class="like-button">
+                    <span class="heart">❤</span> 点赞 (<span id="like-count">0</span>)
+                </button>
+                <div class="visit-stats">
+                    <span>总访问: <span id="total-visits">0</span></span>
+                    <span>独立访客: <span id="unique-visitors">0</span></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="chart-panel">
+            <h2>近期资金流动趋势</h2>
+            <canvas id="cryptoChart" width="400" height="200"></canvas>
+        </section>
+
+        <section class="alerts-panel">
+            <h2>最新警报</h2>
+            <!-- 筛选按钮 -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="btc">BTC</button>
+                <button class="filter-btn" data-filter="usdt">USDT</button>
+                <button class="filter-btn" data-filter="usdc">USDC</button>
+            </div>
+            <div id="alerts-container">
+                <table id="alerts-table">
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>标题</th>
+                        </tr>
+                    </thead>
+                    <tbody id="alerts-body">
+                        <!-- 动态加载内容 -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <!-- 友情链接 -->
+        <section class="footer-links">
+            <h3>相关链接</h3>
+            <ul>
+                <li><a href="https://btchao.com" target="_blank">比特币囤币指南</a></li>
+                <li><a href="https://www.xiaowuleyi.com" target="_blank">小吴主页</a></li>
+                <li><a href="https://wb.xiaowuleyi.com" target="_blank">小吴碎碎念</a></li>
+            </ul>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
