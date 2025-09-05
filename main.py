@@ -169,6 +169,7 @@ def fetch_and_store_rss():
         # 解决SSL证书问题
         import urllib.request
         import urllib.error
+        import time
         
         # 创建不验证SSL的上下文
         ssl_context = ssl.create_default_context()
@@ -176,9 +177,29 @@ def fetch_and_store_rss():
         ssl_context.verify_mode = ssl.CERT_NONE
         
         # 使用urllib打开URL
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        response = urllib.request.urlopen(req, context=ssl_context)
-        data = response.read()
+        req = urllib.request.Request(url, headers={
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        })
+        
+        # 添加重试机制处理429错误
+        max_retries = 3
+        retry_count = 0
+        
+        while retry_count < max_retries:
+            try:
+                response = urllib.request.urlopen(req, context=ssl_context)
+                data = response.read()
+                break
+            except urllib.error.HTTPError as e:
+                if e.code == 429 and retry_count < max_retries - 1:
+                    # 遇到429错误时等待一段时间再重试
+                    retry_count += 1
+                    wait_time = 2 ** retry_count  # 指数退避
+                    print(f"遇到429错误，等待 {wait_time} 秒后重试 ({retry_count}/{max_retries})")
+                    time.sleep(wait_time)
+                    continue
+                else:
+                    raise e
         
         # 解析RSS
         feed = feedparser.parse(data)
@@ -265,12 +286,12 @@ def update_daily_stats():
     conn.commit()
     conn.close()
 
-# 定时任务：每5分钟获取一次数据
+# 定时任务：每10分钟获取一次数据（避免429错误）
 def scheduled_fetch():
     while True:
         fetch_and_store_rss()
-        # 每5分钟执行一次
-        time.sleep(300)
+        # 每10分钟执行一次（原为5分钟）
+        time.sleep(600)
 
 # 定时任务：每小时获取一次BTC价格
 def scheduled_btc_price_fetch():
